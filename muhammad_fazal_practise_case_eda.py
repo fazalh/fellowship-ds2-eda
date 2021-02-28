@@ -45,7 +45,9 @@ df['Team'].is_unique
 
 # Check column mana yg paling banyak missing values
 
-df.isnull().sum().sort_values(ascending=False)
+df_check = df.isnull().sum().sort_values(ascending=False)
+
+df_check[df_check > 0]
 
 # Check data types tiap column
 # sebelum kita perbaiki saat extract data, terdapat beberapa data yg menjadi object yaitu :
@@ -55,8 +57,6 @@ df.dtypes
 df.describe()
 
 """> Kesimpulan dari Nomor 1 adalah data not clean. Proses cleansing dimulai dengan penyesuaian saat read csv harus ada parameter thousands agar yang ada comma tidak menjadi string/object. Setelah itu kita check duplicates team, check missing values dan describe.
-
-## Data Analysis
 
 ### 2. How is the point distribution of the epl team? and which team is an anomaly?
 """
@@ -86,7 +86,10 @@ else:
 
  # Hasil Uji normalitas juga menunjukkan tidak ada anomaly karena p > alpha
 
-"""### 3. Which team has the best attack?"""
+"""## Data Analysis
+
+### 3. Which team has the best attack?
+"""
 
 # kita buat dataframe untuk soal nomor 3
 attack = df[['Team','attack_pass_accuracy','attack_posession','attack_shots_on_target','attack_scored']].reset_index()
@@ -112,7 +115,7 @@ print(attack.head())
 print('\r')
 
 # Bar Chart top 5 
-ax = sns.barplot(y=attack['Team'].head(), x=attack['score'].head(), data=attack, palette="Blues_r").set_title('Top 5 Best Attack Teams')
+ax = sns.barplot(y=attack['Team'], x=attack['score'], data=attack, palette="Blues_r").set_title('Best Attack Teams Chart')
 
 print('The best team attack is ' + attack['Team'][attack['score'] == attack['score'].max()])
 
@@ -129,7 +132,7 @@ print(defence.head())
 print('\r')
 
 # Bar Chart top 5 
-ax = sns.barplot(y=defence['Team'].head(), x=defence['defence_rate'].head(), data=defence, palette="Reds_r").set_title('Top 5 Best Defence Teams (Lower is Better)')
+ax = sns.barplot(y=defence['Team'], x=defence['defence_rate'], data=defence, palette="Reds_r").set_title('Best Defence Teams (Lower is Better)')
 
 print('The best team defence is ' + defence['Team'][defence['defence_rate'] == defence['defence_rate'].min()])
 
@@ -160,7 +163,7 @@ print(finance.head())
 print('\r')
 
 # Bar Chart top 5 
-ax = sns.barplot(y=finance['Team'].head(), x=finance['score'].head().sort_values(ascending=False), data=finance, palette="Greens_r").set_title('Top 5 Good Teams in Financial Aspect')
+ax = sns.barplot(y=finance['Team'], x=finance['score'].sort_values(ascending=False), data=finance, palette="Greens_r").set_title('Good Teams in Financial Aspect')
 
 print('The good team in financial is ' + finance['Team'][finance['score'] == finance['score'].max()])
 
